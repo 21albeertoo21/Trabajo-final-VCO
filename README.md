@@ -9,3 +9,12 @@ ETAPAS DEL PROYECTO
    Eliminar el ruido de las imágenes, eliminar todos los elementos que no son ni palos ni
    figuras del poker.
    Cambiar el tamaño de las cartas (resolution = 1 o resolution = 0.5)
+2. SEGMENTADO
+   Umbralizar las cartas
+   Etiquetar los objetos con colores (label2rgb)
+   Crear una clase Cards con los siguientes atributos:
+      - imagen color de la carta
+      - imagen en gris de la carta
+      - centroido
+      - BoundingBox
+      - algún atributo más

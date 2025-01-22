@@ -16,19 +16,21 @@ def label2rgb(label_img):
     labeled_img = cv2.cvtColor(labeled_img, cv2.COLOR_HSV2BGR)
     # Poner el fondo a negro. El fondo son los píxeles con etiqueta 0
     labeled_img[label_ids==0] = 0
+
     return labeled_img
 
 # Supongamos que 'img' es la imagen cargada
-img = cv2.imread('../Training/Resized/resized_IMG_20210321_121516.jpg', cv2.IMREAD_GRAYSCALE)
+img = cv2.imread('../Test/Test/IMG_20210321_122121.jpg')
+gray_img = cv2.cvtColor(img , cv2.COLOR_BGR2GRAY)
 
 # Aplicar el umbral
 threshold = 184  # Ajusta este valor según tus necesidades
-retval, thresh1 = cv2.threshold(img, threshold, 255, cv2.THRESH_BINARY_INV)
+thresh1 = cv2.threshold(gray_img, threshold, 255, cv2.THRESH_BINARY_INV)[1]
 
 analysis = cv2.connectedComponentsWithStats(thresh1, 4, cv2.CV_32S)
 (totalLabels, label_ids, values, centroid) = analysis
 
-output = np.zeros(img.shape, dtype="uint8")
+output = np.zeros(gray_img.shape, dtype="uint8")
 
 areaMinima = 300000
 
@@ -36,16 +38,15 @@ for i in range(1, totalLabels): # Para todos los objetos encontrados
 
     # Área de los componentes
     area = values[i, cv2.CC_STAT_AREA]
-    if (area > areaMinima): # Filtrado por área mínima
+    key=1
+    if (area < areaMinima): # Filtrado por área mínima
         componentMask = (label_ids == i).astype("uint8") * 255
         output = cv2.bitwise_or(output, componentMask)
-        RGB = label2rgb(output)
-        cv2.imshow("normal", img)
-        cv2.imshow("filtro", RGB)
-        key = cv2.waitKey(0)
+
     if key == ord('q') or key == 27: # 'q' o ESC para acabar
         break
 
+cv2.imwrite('segmentacion.jpg', label2rgb(label_ids))
 cv2.destroyAllWindows()
 
 
