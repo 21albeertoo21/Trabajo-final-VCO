@@ -1,22 +1,33 @@
 import cv2
 import os
 
-def cargarImagenes(carpetaImagenes):
+RESOLUTION = 0.5
+FOLDERPATH = '../Training/Training'
+OUTPUT_FOLDER = '../Training/Resized'
+
+def loadImages(folder):
     images = []
-    for fichero in os.listdir(carpetaImagenes):
-        img = cv2.imread(os.path.join(carpetaImagenes, fichero))
+    filenames = []
+    for file in os.listdir(folder):
+        img = cv2.imread(os.path.join(folder, file))
         if img is not None:
             images.append(img)
-    return images
+            filenames.append(file)
+    return images, filenames
 
-# Ruta a la carpeta que contiene las imágenes
-rutaImagenes = '../Training'
+def resizeImages():
+    # Cargar todas las imágenes en una lista
+    images, filenames = loadImages(FOLDERPATH)
 
-# Cargar todas las imágenes en una lista
-images = cargarImagenes(rutaImagenes)
+    if not os.path.exists(OUTPUT_FOLDER):
+        os.makedirs(OUTPUT_FOLDER)
 
-# Ahora puedes trabajar con la lista de imágenes
-if images:
-    print('Se han cargado', len(images), 'imágenes')
-else:  
-    print('No se han encontrado imágenes en la carpeta')
+    for img, filename in zip(images, filenames):
+        try:
+            imgResized = cv2.resize(img, None, fx=RESOLUTION, fy=RESOLUTION, interpolation=cv2.INTER_AREA)
+            output_path = os.path.join(OUTPUT_FOLDER, 'resized_' + filename)
+            cv2.imwrite(output_path, imgResized)
+        except Exception as e:
+            print(f"Error processing image {filename}: {e}")
+
+resizeImages()
