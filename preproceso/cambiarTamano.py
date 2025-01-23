@@ -45,7 +45,7 @@ def resizeImages():
             cv2.imwrite(output_path, imgResized)
         except Exception as e:
             print(f"Error processing image {filename}: {e}")
-
+    # Redimensionar las imágenes y guardarlas en la carpeta de salida Test
     for img, filename in zip(imagesTest, filenamesTest):
         try:
             imgResized = cv2.resize(img, None, fx=RESOLUTION, fy=RESOLUTION, interpolation=cv2.INTER_AREA)

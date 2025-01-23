@@ -15,7 +15,7 @@ ETAPAS DEL PROYECTO
    Crear una clase Cards con los siguientes atributos:
       - imagen color de la carta
       - imagen en gris de la carta
-      - centroido
+      - centroide
       - BoundingBox
       - RealSuit -> predictedSuit
       - realFigure -> predictedFigure
