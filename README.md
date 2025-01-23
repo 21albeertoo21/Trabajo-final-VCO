@@ -17,4 +17,6 @@ ETAPAS DEL PROYECTO
       - imagen en gris de la carta
       - centroido
       - BoundingBox
-      - algún atributo más
+      - RealSuit -> predictedSuit
+      - realFigure -> predictedFigure
+
